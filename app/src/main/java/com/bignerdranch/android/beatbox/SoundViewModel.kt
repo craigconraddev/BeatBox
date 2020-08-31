@@ -1,17 +1,23 @@
 package com.bignerdranch.android.beatbox
 
+import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 
-class SoundViewModel : BaseObservable() {
+private const val TAG = "SoundViewModel"
+
+class SoundViewModel {
+
+    val title: MutableLiveData<String?> = MutableLiveData()
 
     var sound: Sound? = null
             set(sound) {
                 field = sound
-                notifyChange()
+               title.postValue(sound?.name)
             }
 
-    @get:Bindable
-    val title: String?
-        get() = sound?.name
+    fun onButtonClick() {
+        Log.d(TAG, "Clicked ${sound?.name}")
+    }
 }

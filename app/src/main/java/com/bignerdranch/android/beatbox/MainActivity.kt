@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity() {
                 R.layout.list_item_sound,
                 parent,
                 false)
+
+            binding.lifecycleOwner = this@MainActivity
+
             return SoundHolder(binding)
         }
 
