@@ -7,17 +7,22 @@ import androidx.lifecycle.MutableLiveData
 
 private const val TAG = "SoundViewModel"
 
-class SoundViewModel {
-
-    val title: MutableLiveData<String?> = MutableLiveData()
+class SoundViewModel(private val beatBox: BeatBox): BaseObservable() {
 
     var sound: Sound? = null
             set(sound) {
                 field = sound
-               title.postValue(sound?.name)
+                notifyChange()
             }
 
-    fun onButtonClick() {
-        Log.d(TAG, "Clicked ${sound?.name}")
+    @get:Bindable
+    val title: String?
+        get() = sound?.name
+
+    fun onButtonClicked() {
+       // Log.d(TAG, "Clicked ${sound?.name}")
+        sound?.let {
+            beatBox.play(it)
+        }
     }
 }
