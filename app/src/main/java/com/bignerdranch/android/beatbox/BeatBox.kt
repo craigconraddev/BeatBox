@@ -3,6 +3,7 @@ package com.bignerdranch.android.beatbox
 import android.content.res.AssetFileDescriptor
 import android.content.res.AssetManager
 import android.media.SoundPool
+import android.nfc.Tag
 import android.util.Log
 import java.io.IOException
 import java.lang.Exception
@@ -17,6 +18,7 @@ class BeatBox(private val assets: AssetManager) {
     private val soundPool = SoundPool.Builder()
         .setMaxStreams(MAX_SOUNDS)
         .build()
+    private var rate: Float = 0.0f
 
     init {
         sounds = loadSounds()
@@ -24,8 +26,13 @@ class BeatBox(private val assets: AssetManager) {
 
     fun play(sound: Sound) {
         sound.soundId?.let {
-            soundPool.play(it, 1.0f, 1.0f, 1, 0, 1.0f)
+            soundPool.play(it, 1.0f, 1.0f, 1, 0, rate)
         }
+    }
+
+    fun updateRate(rate: Float) {
+        this.rate = rate
+        Log.d(TAG, "beatBox rate = ${this.rate} and rate = $rate")
     }
 
     fun release() {
